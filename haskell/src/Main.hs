@@ -11,24 +11,21 @@ main = do
 
 -- What floor do we end up on if we start at floor 0?
 whatFloor :: String -> Int
-whatFloor [] = 0
-whatFloor (x:xs) = direction x + whatFloor xs
--- or
--- whatFloor instructions = foldl (+) 0 directions
---   where directions = map direction instructions
+whatFloor insts = foldl (+) 0 (directions insts)
 
 -- '(' means go up one floor and ')' means go down one
 direction :: Char -> Int
 direction '(' = 1
 direction ')' = -1
 
+directions :: String -> [Int]
+directions insts = map direction insts
+
 -- Given instructions, return a list of what floor we end up on after each
--- individual move. 
--- The list starts with 0 to signal that we are on floor 0 before applying any
--- moves.
+-- individual move. The list starts with 0 to signal that we are on floor 0
+-- before applying any moves.
 floors :: String -> [Int]
-floors insts = scanl (+) 0 moves
-  where moves = map direction insts
+floors insts = scanl (+) 0 (directions insts)
 
 -- returns what instruction causes santa to enter the given floor
 whatInstruction :: Int -> String -> Int
